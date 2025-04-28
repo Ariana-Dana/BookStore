@@ -1,0 +1,28 @@
+package com.example.bookstore.controller;
+
+import com.example.bookstore.dto.OrderDTO;
+import com.example.bookstore.service.OrderService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/orders")
+@RequiredArgsConstructor
+public class OrderController {
+    private final OrderService orderService;
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public OrderDTO createOrder(@Valid @RequestBody OrderDTO orderDTO) {
+        return orderService.createOrder(orderDTO);
+    }
+
+    @GetMapping("/customer/{customerId}")
+    public List<OrderDTO> getOrderHistoryByCustomer(@PathVariable Long customerId) {
+        return orderService.findByCustomer(customerId);
+    }
+}
