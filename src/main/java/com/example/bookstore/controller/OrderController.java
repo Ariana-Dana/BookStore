@@ -25,4 +25,20 @@ public class OrderController {
     public List<OrderDTO> getOrderHistoryByCustomer(@PathVariable Long customerId) {
         return orderService.findByCustomer(customerId);
     }
+
+    @GetMapping("/{id}")
+    public OrderDTO getOrderById(@PathVariable Long id) {
+        return orderService.findById(id);
+    }
+
+    @GetMapping
+    public List<OrderDTO> getAllOrders() {
+        return orderService.findAll();
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteOrder(@PathVariable Long id) {
+        orderService.delete(id);
+    }
 }

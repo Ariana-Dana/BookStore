@@ -54,21 +54,48 @@ public class OrderService {
         return mapToDTO(savedOrder);
     }
 
+    @Transactional(readOnly = true)
     public List<OrderDTO> findByCustomer(Long customerId) {
         return orderRepository.findByCustomerId(customerId).stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public OrderDTO findById(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        return mapToDTO(order);
+    }
+
+    @Transactional(readOnly = true)
+    public List<OrderDTO> findAll() {
+        return orderRepository.findAll().stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        if (!orderRepository.existsById(id)) {
+            throw new RuntimeException("Order not found with id: " + id);
+        }
+        orderRepository.deleteById(id);
+    }
+
     private OrderDTO mapToDTO(Order order) {
         OrderDTO dto = new OrderDTO();
         dto.setId(order.getId());
         dto.setCustomerId(order.getCustomer().getId());
+        dto.setOrderDate(order.getOrderDate());
+        dto.setTotal(order.getTotal());
         dto.setItems(order.getItems().stream()
                 .map(item -> {
                     OrderItemDTO itemDTO = new OrderItemDTO();
+                    itemDTO.setId(item.getId()); 
                     itemDTO.setBookId(item.getBook().getId());
                     itemDTO.setQuantity(item.getQuantity());
+                    itemDTO.setPrice(item.getPrice());
                     return itemDTO;
                 })
                 .collect(Collectors.toList()));

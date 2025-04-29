@@ -31,7 +31,7 @@ CREATE TABLE customer (
     email VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE `order` (
+CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT,
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -45,12 +45,12 @@ CREATE TABLE order_item (
     book_id INT,
     quantity INT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (order_id) REFERENCES `order`(id),
+    FOREIGN KEY (order_id) REFERENCES orders(id),
     FOREIGN KEY (book_id) REFERENCES book(id)
 );
 
 CREATE INDEX idx_author_id ON book(author_id);
 CREATE INDEX idx_genre_id ON book_genre(genre_id);
-CREATE INDEX idx_customer_id ON `order`(customer_id);
+CREATE INDEX idx_customer_id ON orders(customer_id);
 CREATE INDEX idx_order_id ON order_item(order_id);
 CREATE INDEX idx_book_id ON order_item(book_id);

@@ -16,12 +16,12 @@ INSERT INTO book (title, description, price, author_id) VALUES
 
 -- Asociem cărți cu genuri
 INSERT INTO book_genre (book_id, genre_id) VALUES 
-(1, 1),  -- Harry Potter - Fantasy
-(1, 2),  -- Harry Potter - Adventure
-(2, 1),  -- Game of Thrones - Fantasy
-(2, 2),  -- Game of Thrones - Adventure
-(3, 3),  -- Dune - Science Fiction
-(3, 2);  -- Dune - Adventure
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 2),
+(3, 3),
+(3, 2);
 
 -- Inserăm clienți
 INSERT INTO customer (name, email) VALUES 
@@ -30,16 +30,16 @@ INSERT INTO customer (name, email) VALUES
 ('Alice Johnson', 'alice.johnson@example.com');
 
 -- Inserăm comenzi
-INSERT INTO `order` (customer_id, order_date, total) VALUES 
+INSERT INTO orders (customer_id, order_date, total) VALUES 
 (1, '2025-04-28T10:00:00', 69.98),
 (2, '2025-04-28T11:00:00', 79.98),
 (3, '2025-04-28T12:00:00', 99.98);
 
 -- Inserăm produse în comenzi
 INSERT INTO order_item (order_id, book_id, quantity, price) VALUES 
-(1, 1, 1, 29.99),  -- Comanda 1 - Harry Potter
-(1, 2, 1, 39.99),  -- Comanda 1 - Game of Thrones
-(2, 2, 1, 39.99),  -- Comanda 2 - Game of Thrones
-(2, 3, 1, 49.99),  -- Comanda 2 - Dune
-(3, 3, 1, 49.99),  -- Comanda 3 - Dune
-(3, 1, 1, 29.99);  -- Comanda 3 - Harry Potter
+(1, 1, 1, 29.99),
+(1, 2, 1, 39.99),
+(2, 2, 1, 39.99),
+(2, 3, 1, 49.99),
+(3, 3, 1, 49.99),
+(3, 1, 1, 29.99);
