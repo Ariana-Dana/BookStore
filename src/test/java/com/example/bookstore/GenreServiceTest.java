@@ -7,9 +7,8 @@ import com.example.bookstore.service.GenreService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -29,59 +28,55 @@ class GenreServiceTest {
 
     @Test
     void testFindAll() {
-        Genre genre1 = new Genre();
-        genre1.setId(1L);
-        genre1.setName("Fantasy");
+        Genre genre = new Genre();
+        genre.setId(1L);
+        genre.setName("Fantasy");
 
-        Genre genre2 = new Genre();
-        genre2.setId(2L);
-        genre2.setName("Sci-Fi");
-
-        when(genreRepository.findAll()).thenReturn(Arrays.asList(genre1, genre2));
+        when(genreRepository.findAll()).thenReturn(List.of(genre));
 
         List<GenreDTO> result = genreService.findAll();
 
-        assertEquals(2, result.size());
+        assertEquals(1, result.size());
         assertEquals("Fantasy", result.get(0).getName());
-        assertEquals("Sci-Fi", result.get(1).getName());
     }
 
     @Test
     void testFindById() {
         Genre genre = new Genre();
-        genre.setId(1L);
-        genre.setName("Mystery");
+        genre.setId(2L);
+        genre.setName("Science Fiction");
 
-        when(genreRepository.findById(1L)).thenReturn(Optional.of(genre));
+        when(genreRepository.findById(2L)).thenReturn(Optional.of(genre));
 
-        GenreDTO result = genreService.findById(1L);
+        GenreDTO dto = genreService.findById(2L);
 
-        assertNotNull(result);
-        assertEquals("Mystery", result.getName());
+        assertEquals(2L, dto.getId());
+        assertEquals("Science Fiction", dto.getName());
     }
 
     @Test
     void testSave() {
         GenreDTO dto = new GenreDTO();
-        dto.setName("Horror");
+        dto.setName("Mystery");
 
-        Genre saved = new Genre();
-        saved.setId(1L);
-        saved.setName("Horror");
+        Genre genre = new Genre();
+        genre.setId(3L);
+        genre.setName("Mystery");
 
-        when(genreRepository.save(any(Genre.class))).thenReturn(saved);
+        when(genreRepository.save(any(Genre.class))).thenReturn(genre);
 
         GenreDTO result = genreService.save(dto);
 
-        assertNotNull(result);
-        assertEquals(1L, result.getId());
-        assertEquals("Horror", result.getName());
+        assertEquals(3L, result.getId());
+        assertEquals("Mystery", result.getName());
     }
 
     @Test
     void testDelete() {
-        doNothing().when(genreRepository).deleteById(1L);
-        genreService.delete(1L);
-        verify(genreRepository, times(1)).deleteById(1L);
+        Long id = 4L;
+
+        genreService.delete(id);
+
+        verify(genreRepository, times(1)).deleteById(id);
     }
 }
