@@ -16,4 +16,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Page<Book> findByGenresNameContainingIgnoreCase(String genreName, Pageable pageable);
     Page<Book> findByPrice(BigDecimal price, Pageable pageable);
 
+    
+
 }
